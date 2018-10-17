@@ -1,27 +1,36 @@
 import React from "react";
 import './input.scss';
-export default class Input extends React.Component {
-  state = {
-    question: ""
-  };
-  submit = ev => {
-    ev.preventDefault();
-    if (this.state.question && typeof this.props.submit === "function") {
-        this.props.submit(this.state.question);
-        this.setState({ question: '' })
-    }
-  };
+
+import { connect } from "react-redux";
+import { addQuestion, updateQuestion } from "../actions";
+class Input extends React.Component {
+
   render() {
     return (
-      <form onSubmit={this.submit} className="Input">
-        <input
-          type="text"
-          placeholder="¿Qué quieres saber?"
-          value={this.state.question}
-          onChange={event => this.setState({ question: event.target.value })}
-        />
-        <button type="submit">Dime!</button>
-      </form>
-    );
+      <div>
+        <input value={this.props.question} onChange={(event) => {this.props.onChangeQuestion(event.target.value)}}/>
+        <button onClick={() => {
+          this.props.onSubmitQuestion(this.props.question)
+        }} >Preguntar</button>
+      </div>
+    )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
   }
 }
+
+const mapStateToProps = (state)  => {
+  return {
+    question: state.question
+  }
+}
+
+const mapDispatchToProps = (dispatch) => 
+({
+    onSubmitQuestion: (question) => {
+      return dispatch(addQuestion(question));
+    },
+    onChangeQuestion: (question) => {
+      return dispatch(updateQuestion(question));
+    } 
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(Input);
