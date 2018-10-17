@@ -1,6 +1,6 @@
 import React from "react";
 import './input.scss';
-import magicBallService from "../services/magicService";
+
 import { connect } from "react-redux";
 import { addQuestion, updateQuestion } from "../actions";
 class Input extends React.Component {
@@ -26,8 +26,7 @@ const mapStateToProps = (state)  => {
 const mapDispatchToProps = (dispatch) => 
 ({
     onSubmitQuestion: (question) => {
-      const answer = magicBallService(question);
-      return dispatch(addQuestion(answer));
+      return dispatch(addQuestion(question));
     },
     onChangeQuestion: (question) => {
       return dispatch(updateQuestion(question));
